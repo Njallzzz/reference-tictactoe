@@ -9,7 +9,9 @@ module.exports=function(injected){
             };
             messageRouter.on(routingKey, (messageObj)=>{
                 if(conditionFn(messageObj)){
-                    console.debug("Dispatching message over socket.io: " + socketVerb + " message: ", messageObj );
+					if ("production" !== process.env.NODE_ENV) {	
+                    	console.debug("Dispatching message over socket.io: " + socketVerb + " message: ", messageObj );
+					}
                     socketIo.emit(socketVerb, messageObj);
                 }
             })

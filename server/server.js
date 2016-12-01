@@ -3,6 +3,12 @@ function serverModule(injected) {
     var ENV = injected('env');
     var PORT = injected('port');
 
+	var pguser = injected('pguser');
+	var pgpassword = injected('pgpassword');
+	var pgdatabase = injected('pgdatabase');
+	var pgport = injected('pgport');
+	var pghost = injected('pghost');
+
     const config = require('./config.js')[ENV];
 
     const Express = require('express');
@@ -14,6 +20,12 @@ function serverModule(injected) {
     const DbConfig = require('./database.json');
 
     const dbConfig = DbConfig['dev'];
+
+	dbConfig['user'] = pguser;
+	dbConfig['password'] = pgpassword;
+	dbConfig['database'] = pgdatabase;
+	dbConfig['host'] = pghost;
+	dbConfig['port'] = pgport; 
 
     const ChatAppContext = require('./socket-app/server-app-context');
 

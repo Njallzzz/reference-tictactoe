@@ -7,17 +7,16 @@ module.exports=function(injected){
 // note: all config is optional and the environment variables
 // will be read if the config is not present
     var config = injected('config');
-
 /*
     {
-        user: 'postgres', //env var: PGUSER
-        database: 'postgres', //env var: PGDATABASE
-        password: 'mysecretpassword', //env var: PGPASSWORD
-        port: 5432, //env var: PGPORT
+        user: process.env.PGUSER || 'postgres', //env var: PGUSER
+        database: process.env.PGDATABASE || 'postgres', //env var: PGDATABASE
+        password: process.env.PGPASSWORD || 'mysecretpassword', //env var: PGPASSWORD
+        port: process.env.PGPORT || 5432, //env var: PGPORT
         max: 10, // max number of connections in the pool
         idleTimeoutMillis: 30000 // how long a connection is allowed to remain idle before being closed
     };
-*/
+//*/
 
 
 

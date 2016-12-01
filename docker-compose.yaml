@@ -1,0 +1,23 @@
+version: '2'
+services:
+	server:
+		enviroment:
+			- 'PGHOST=postgres'
+			- 'PGPORT=5432'
+			- 'PGUSER=postgres'
+			- 'PGDATABASE=postgres'
+			- 'PGPASSWORD=lulligamli'
+		image: 'njallzzz/tictactoe'
+		build:
+			context: '.'
+			dockerfile: 'Dockerfile'
+		ports:
+			- '80:8080'
+		links:
+			- 'postgres'
+	postgres:
+		enviroment:
+			- 'POSTGRES_PASSWORD=lulligamli'
+		image: 'postgres'
+		ports:
+			- '5432:5432'

@@ -31,8 +31,10 @@ module.exports = function (settings) {
         routeMessage: function (message) {
             var routingValue = message[routingKey];
             if (routingValue === '*') {
-                console.log("WARNING: Event router routing message that has special value * in its routing key attribute! ", message);
-            }
+				if ("production" !== process.env.NODE_ENV) {
+					console.log("WARNING: Event router routing message that has special value * in its routing key attribute! ", message);
+            	}
+	    	}
 
             function routeMessage(routingValue, event) {
                 if (listeners[routingValue]) {
@@ -40,7 +42,9 @@ module.exports = function (settings) {
                         try {
                             listener(event);
                         } catch (e) {
-                            console.error("Error while routing ", event, " to ", listener, ": ", e);
+                        	if ("production" !== process.env.NODE_ENV) {    
+								console.error("Error while routing ", event, " to ", listener, ": ", e);
+							}
                             throw e;
                         }
                     });

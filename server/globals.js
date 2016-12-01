@@ -15,7 +15,9 @@ global.inject = _require('framework/inject');
 
 if(process.env.NODE_ENV!=='production'){
     global.console.debug = global.console.log;
-}
+} else {
+	global.console.debug = function(args) {}
+} 
 
 Path = require('path');
 
