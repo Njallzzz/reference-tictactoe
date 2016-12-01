@@ -44,8 +44,8 @@ cp package.json ./build
 
 echo Building docker image
 
-#docker build -t njallzzz/tictactoe:$GIT_COMMIT .
-docker build -t njallzzz/tictactoe .
+docker build -t njallzzz/tictactoe:$GIT_COMMIT .
+#docker build -t njallzzz/tictactoe .
 
 rc=$?
 if [[ $rc != 0 ]] ; then
@@ -53,11 +53,11 @@ if [[ $rc != 0 ]] ; then
     exit $rc
 fi
 
-#docker push STUDENTNAME/tictactoe:$GIT_COMMIT
-#rc=$?
-#if [[ $rc != 0 ]] ; then
-#    echo "Docker push failed " $rc
-#    exit $rc
-#fi
+docker push njallzzz/tictactoe:$GIT_COMMIT
+rc=$?
+if [[ $rc != 0 ]] ; then
+    echo "Docker push failed " $rc
+    exit $rc
+fi
 
 echo "Done"
