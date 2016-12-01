@@ -27,6 +27,8 @@ function serverModule(injected) {
 	dbConfig['host'] = pghost;
 	dbConfig['port'] = pgport; 
 
+	console.log('database host: ' + dbConfig['host']);
+
     const ChatAppContext = require('./socket-app/server-app-context');
 
     return {

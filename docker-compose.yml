@@ -1,0 +1,23 @@
+version: '2'
+services:
+  server:
+    environment:
+      - 'PGHOST=postgres'
+      - 'PGPORT=5432'
+      - 'PGUSER=postgres'
+      - 'PGDATABASE=postgres'
+      - 'PGPASSWORD=lulligamli'
+    image: 'njallzzz/tictactoe'
+    depends_on:
+      - 'postgres'
+    ports:
+      - '8080:8080'
+      - '3000:3000'
+    links:
+      - 'postgres'
+  postgres:
+    environment:
+      - 'POSTGRES_PASSWORD=lulligamli'
+    image: 'postgres'
+    ports:
+      - '5432:5432'

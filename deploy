@@ -40,6 +40,8 @@ cat > ./dist/version.html << _EOF_
 _EOF_
 
 
+cp package.json ./build
+
 echo Building docker image
 
 #docker build -t njallzzz/tictactoe:$GIT_COMMIT .
