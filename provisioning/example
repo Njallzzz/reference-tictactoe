@@ -1,0 +1,12 @@
+njallzzz@munin-laptop:~/programming/reference-tictactoe/provisioning$ aws ec2 create-security-group --group-name webserver-perm --description "EC2 Webserver Security group"
+{
+    "GroupId": "sg-43ad2325"
+}
+njallzzz@munin-laptop:~/programming/reference-tictactoe/provisioning$ aws ec2 authorize-security-group-ingress --group-name webserver-perm --protocol tcp --port 22 --cidr 0.0.0.0/0
+njallzzz@munin-laptop:~/programming/reference-tictactoe/provisioning$ aws ec2 authorize-security-group-ingress --group-name webserver-perm --protocol tcp --port 80 --cidr 0.0.0.0/0
+njallzzz@munin-laptop:~/programming/reference-tictactoe/provisioning$ aws ec2 run-instances --image-id ami-9398d3e0 --security-group-ids sg-43ad2325 --count 1 --instance-type t2.micro --key-name microserver1 --query 'Instances[0].InstanceId'
+"i-8a578f4a"
+njallzzz@munin-laptop:~/programming/reference-tictactoe/provisioning$ aws ec2 describe-instances --instance-ids i-8a578f4a --query 'Reservations[0].Instances[0].PublicIpAddress'
+"54.154.201.252"
+
+
