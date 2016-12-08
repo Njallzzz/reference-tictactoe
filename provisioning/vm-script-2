@@ -1,4 +1,4 @@
 #!/bin/bash
 docker pull njallzzz/tictactoe:latest
 docker pull postgres
-docker-compose up &
+tmux new -d 'docker-compose up'
