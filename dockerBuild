@@ -56,7 +56,15 @@ fi
 docker push njallzzz/tictactoe:$GIT_COMMIT
 rc=$?
 if [[ $rc != 0 ]] ; then
-    echo "Docker push failed " $rc
+    echo "Docker push 1 failed " $rc
+    exit $rc
+fi
+
+docker tag njallzzz/tictactoe:$GIT_COMMIT njallzzz/tictactoe:latest
+docker push njallzzz/tictactoe:latest
+rc=$?
+if [[ $rc != 0 ]] ; then
+    echo "Docker push 2 failed " $rc
     exit $rc
 fi
 
