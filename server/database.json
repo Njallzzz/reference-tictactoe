@@ -2,8 +2,8 @@
   "dev": {
     "driver": "pg",
     "user": "postgres",
-    "password": "lulligamli",
-    "host": "postgres",
+    "password": "mysecretpassword",
+    "host": "localhost",
     "database": "postgres",
     "schema": "postgres",
     "port": 5432,

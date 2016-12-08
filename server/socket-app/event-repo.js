@@ -67,7 +67,7 @@ module.exports=function(injected){
 
                     if(err) {
                         console.error('error executing statement ', statement, "params", statementParams, "ERROR: ", err);
-                        errCb('error executing statement ' + statement + "params"+ statementParams );
+                        //errCb('error executing statement ' + statement + "params"+ statementParams );
                     } else {
 
                         var events = _.map(result.rows, function(row){
