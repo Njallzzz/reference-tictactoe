@@ -1,8 +1,0 @@
-aws ec2 create-security-group --group-name webserver-perm --description "EC2 Webserver Security group"
-
-aws ec2 authorize-security-group-ingress --group-name webserver-perm --protocol tcp --port 22 --cidr 0.0.0.0/0
-aws ec2 authorize-security-group-ingress --group-name webserver-perm --protocol tcp --port 80 --cidr 0.0.0.0/0
-
-aws ec2 run-instances --image-id ami-9398d3e0 --security-group-ids <security group id> --count 1 --instance-type t2.micro --key-name microserver1 --query 'Instances[0].InstanceId'
-
-aws ec2 describe-instances --instance-ids <image id> --query 'Reservations[0].Instances[0].PublicIpAddress'

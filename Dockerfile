@@ -12,4 +12,4 @@ ENV PORT=8080
 
 EXPOSE 8080
 
-CMD npm run migratedb && node run.js
+CMD sleep 10 && npm run migratedb && node run.js
