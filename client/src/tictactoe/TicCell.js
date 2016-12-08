@@ -6,15 +6,26 @@ export default function (injected) {
     const generateUUID = injected('generateUUID');
 
     class TicCell extends React.Component {
-        constructor() {
-            super();
+        constructor(props) {
+            super(props);
+            console.log(this.props);
             this.state = {
             }
         }
         componentWillMount(){
         }
+
         render() {
-            return <div className="ticcell">
+            return <div className="ticcell" onClick={() => {
+              var cmdId = generateUUID();
+              commandPort.routeMessage({
+                  commandId:cmdId,
+                  type:"PlaceMove",
+                  coordinates: this.props.coordinates,
+                  gameId: this.props.gameId,
+                  mySide: this.props.mySide
+              });
+            }}>
                 CELL
             </div>
         }

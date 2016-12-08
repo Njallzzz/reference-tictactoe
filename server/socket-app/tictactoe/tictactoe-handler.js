@@ -43,13 +43,13 @@ module.exports = function(injected){
                         }]);
                     },
                     "PlaceMove": function(cmd){
-
+                        console.log("Placemove: " + cmd.gameId);
                         // Check here for conditions which prevent command from altering state
 
-                        gameState.processEvents(events);
+                        //gameState.processEvents(events);
 
                         // Check here for conditions which may warrant additional events to be emitted.
-                        eventHandler(events);
+                        //eventHandler(events);
                     }
                 };
 
@@ -61,4 +61,3 @@ module.exports = function(injected){
         }
     }
 };
-

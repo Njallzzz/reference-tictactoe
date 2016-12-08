@@ -4,7 +4,12 @@ module.exports = function (injected) {
 
     return function (history) {
 
+        function gameFull() {
+            return false;   // Debug
+        }
+
         function processEvent(event) {
+          this._push(event);
         }
 
         function processEvents(history) {
@@ -14,7 +19,8 @@ module.exports = function (injected) {
         processEvents(history);
 
         return {
-            processEvents: processEvents
+            processEvents: processEvents,
+            gameFull: gameFull
         }
     };
 };
