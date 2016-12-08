@@ -10,10 +10,8 @@ module.exports=function(injected){
             var listener;
             listener = (message)=>{
                 message._session = session;
-                if ("production" !== process.env.NODE_ENV) {
-			console.debug("Incoming message from socket.io: " + socketIoVerb + " message: ", message );
-                }
-		messageRouter.routeMessage(message);
+               //console.debug("Incoming message from socket.io: " + socketIoVerb + " message: ", message );
+                messageRouter.routeMessage(message);
             };
 
             socket.on(socketIoVerb, listener);

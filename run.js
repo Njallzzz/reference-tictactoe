@@ -9,6 +9,7 @@ module.exports = (function() {
 	var pgdatabase = process.env.PGDATABASE || 'postgres';
 	var pgport = process.env.PGPORT || 5432;
 	var pghost = process.env.PGHOST || 'localhost';
+    console.log("Run env:", process.env);
 
     var server = require('./server/server.js')(inject({
         port,
