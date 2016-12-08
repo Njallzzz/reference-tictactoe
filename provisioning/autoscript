@@ -1,0 +1,65 @@
+#!/usr/bin/python
+import subprocess
+from time import sleep
+import json
+
+security_group = "webserver-perm"
+pem = "microserver2"
+image_id = "ami-9398d3e0"
+
+command1 = ["aws", "ec2", "create-security-group", "--group-name", security_group, "--description", "Webserver"]
+command2 = ["aws", "ec2", "authorize-security-group-ingress", "--group-name", security_group, "--protocol",
+             "tcp", "--port", "22", "--cidr", "0.0.0.0/0"]
+command3 = ["aws", "ec2", "authorize-security-group-ingress", "--group-name", security_group, "--protocol",
+             "tcp", "--port", "80", "--cidr", "0.0.0.0/0"]
+command4 = ["aws", "ec2", "describe-security-groups", "--group-names", security_group]
+
+process = subprocess.Popen(command1, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+output, error = process.communicate()
+
+if not output and "already exists" not in error:
+    print "Unable to create security group"
+    exit(1)
+if output:
+    data = json.loads(output)
+    groupid=data["GroupId"]
+else:
+    process = subprocess.Popen(command4, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, error = process.communicate()
+    data = json.loads(output)
+    groupid = data["SecurityGroups"][0]["GroupId"]
+print "Security group ID:", groupid
+
+process = subprocess.Popen(command2, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+output, error = process.communicate()
+if error and "already exists" not in error:
+    print "Error when setting inbound port 22:", error
+process = subprocess.Popen(command3, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+output, error = process.communicate()
+if error and "already exists" not in error:
+    print "Error when setting inbound port 80:", error
+
+command5 = ["aws", "ec2", "run-instances", "--image-id", image_id, "--security-group-ids", groupid, "--count", "1",
+            "--instance-type", "t2.micro", "--key-name", pem, "--query", "Instances[0].InstanceId"]
+
+process = subprocess.Popen(command5, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+output, error = process.communicate()
+
+instance_id = output[1:-2]
+print "VM Instance ID:", instance_id
+
+ip = ""
+command6 = ["aws", "ec2", "describe-instances", "--instance-ids", instance_id, "--query",
+            "Reservations[0].Instances[0].PublicIpAddress"]
+while ip == "":
+    process = subprocess.Popen(command6, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, error = process.communicate()
+    if len(output) > 6:
+        ip = output[1:-2]
+    else:
+        print "Waiting for VM to get an IP address"
+        sleep(1)
+
+print "VM IP Address:", ip
+
+
