@@ -61,6 +61,14 @@ while ip == "":
         sleep(1)
 
 print "VM IP Address:", ip
+print "Waiting for VM instance to become online..."
+state = 0;
+command11 = ["aws", "ec2", "describe-instances", "--instance-ids", instance_id, "--query", "Reservations[0].Instances[0].State.Code"]
+while state != 16:
+    process = subprocess.Popen(command11, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, error = process.communicate()
+    state = int(output)
+    sleep(5)
 
 pem_file = pem + ".pem"
 command7 = ["scp", "-oStrictHostKeyChecking=no", "-i", pem_file, "vm-script-1", "ec2-user@"+ ip + ":/home/ec2-user"]
@@ -68,11 +76,16 @@ command8 = ["scp", "-oStrictHostKeyChecking=no", "-i", pem_file, "vm-script-2", 
 command9 = ["ssh", "-oStrictHostKeyChecking=no", "-i", pem_file, "ec2-user@" + ip, "./vm-script-1"]
 command10 = ["ssh", "-oStrictHostKeyChecking=no", "-i", pem_file, "ec2-user@" + ip, "./vm-script-2"]
 
-process = subprocess.Popen(command7, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-output, error = process.communicate()
-if output or error:
-    print "Output:", output
-    print "Error:", error
+error = "Connection refused"
+while "Connection refused" in error:
+    process = subprocess.Popen(command7, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, error = process.communicate()
+    if (output or error) and "Connection refused" not in error and "Warning: Permanently added" not in error:
+        print "Output:", output
+        print "Error:", error
+    elif "Connection refused" in error:
+        sleep(5)
+print "Connected to VM!"
 
 process = subprocess.Popen(command8, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 output, error = process.communicate()
