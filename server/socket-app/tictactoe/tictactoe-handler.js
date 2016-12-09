@@ -44,9 +44,21 @@ module.exports = function(injected){
                     },
                     "PlaceMove": function(cmd){
                         console.log("Placemove: " + cmd.gameId);
+
+                        if(!gameState.validPlacement(cmd.coordinates)) {
+                          eventHandler( [{
+                              gameId: cmd.gameId,
+                              type: "InvalidPlacement",
+                              coordinates: this.props.coordinates,
+                              name: cmd.name,
+                              timeStamp: cmd.timeStamp,
+                              mySide: this.props.mySide
+                          }]);
+                          return;
+                        }
                         // Check here for conditions which prevent command from altering state
 
-                        //gameState.processEvents(events);
+                        gameState.processEvents(cmd); // ?
 
                         // Check here for conditions which may warrant additional events to be emitted.
                         //eventHandler(events);

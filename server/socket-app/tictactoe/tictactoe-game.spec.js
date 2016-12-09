@@ -109,7 +109,7 @@ describe('join game command', function () {
                 userName: "Gummi"
             },
             name: "TheFirstGame",
-            timeStamp: "2014-12-02T11:29:29"
+            timeStamp: "2014-12-02T11:29:30"
         };
         then = [
             {
@@ -118,7 +118,7 @@ describe('join game command', function () {
                     userName: "Gummi"
                 },
                 name: "TheFirstGame",
-                timeStamp: "2014-12-02T11:29:29",
+                timeStamp: "2014-12-02T11:29:30",
                 side:'O'
             }
         ];
@@ -126,9 +126,47 @@ describe('join game command', function () {
     });
 
     it('should emit FullGameJoinAttempted event when game full..implement this', function () {
+        given = [{
+            type: "GameCreated",
+            user: {
+                userName: "TheGuy"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "JoinGame",
+            user: {
+                userName: "Gummi"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }
+        ];
+        when =
+        {
+            type: "JoinGame",
+            user: {
+                userName: "Gamli"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        };
+        then = [
+            {
+                type: "FullGameJoinAttempted",
+                user: {
+                    userName: "Gamli"
+                },
+                name: "TheFirstGame",
+                timeStamp: "2014-12-02T11:29:29"
+            }
+        ];
 
-        expect(true).toBe(false);
+        /*gameId: cmd.gameId,
+        type: "FullGameJoinAttempted",
+        user: cmd.user,
+        name: cmd.name,
+        timeStamp: cmd.timeStamp  // */
+        //expect(true).toBe(false);
     });
 });
-
-
