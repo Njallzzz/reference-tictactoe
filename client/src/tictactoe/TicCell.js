@@ -8,11 +8,15 @@ export default function (injected) {
     class TicCell extends React.Component {
         constructor(props) {
             super(props);
-            //console.log(this.props);
+            //this.text = props.coordinates.x + (props.coordinates.y * 3) + 1;
             this.state = {
             }
         }
         componentWillMount(){
+        }
+
+        setText(value) {
+            this.text = value;
         }
 
         render() {
@@ -26,7 +30,7 @@ export default function (injected) {
                   mySide: this.props.mySide
               });
             }}>
-                CELL
+                { this.props.text }
             </div>
         }
     }

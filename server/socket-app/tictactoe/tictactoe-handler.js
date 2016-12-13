@@ -38,6 +38,7 @@ module.exports = function(injected){
                             type: "GameJoined",
                             user: cmd.user,
                             name: cmd.name,
+                            board: gameState.getCurrentBoard(),
                             timeStamp: cmd.timeStamp,
                             side:'O'
                         }]);

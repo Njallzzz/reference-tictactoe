@@ -11,6 +11,10 @@ module.exports = function (injected) {
             return history.full;
         }
 
+        function getCurrentBoard() {
+            return history.board;
+        }
+
         function invalidPlacement(coords) {
             return isNaN(history.board[coords.y][coords.x]);
         }
@@ -62,7 +66,8 @@ module.exports = function (injected) {
             processEvents: processEvents,
             gameFull: gameFull,
             invalidPlacement: invalidPlacement,
-            isTurns: isTurns
+            isTurns: isTurns,
+            getCurrentBoard: getCurrentBoard
         }
     };
 };

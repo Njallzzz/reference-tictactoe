@@ -37,7 +37,8 @@ export default function (injected) {
                         gameOver:undefined,
                         currentGame:{
                             gameId:gameJoined.gameId,
-                            side:gameJoined.side
+                            side:gameJoined.side,
+                            board: gameJoined.board
                         }
                     });
                 }
@@ -61,7 +62,8 @@ export default function (injected) {
                         gameOver:undefined,
                         currentGame:{
                             gameId:gameCreated.gameId,
-                            side:gameCreated.side
+                            side:gameCreated.side,
+                            board: [[1,2,3], [4,5,6], [7,8,9]]
                         }
                     });
                 } else{
@@ -73,6 +75,32 @@ export default function (injected) {
                 }
             };
 
+            const Placed = (Placed)=>{
+                if(this.state.currentGame.gameId===Placed.gameId) {
+                    var newcur = this.state.currentGame;
+                    newcur.board[Placed.coordinates.y][Placed.coordinates.x] = Placed.mySide;
+                    this.setState({
+                        invalid: undefined,
+                        currentGame: newcur
+                    });
+                }
+            };
+
+            const invalidPlacement = (invalidPlacement)=>{
+                if(this.state.currentGame.gameId===invalidPlacement.gameId) {
+                    this.setState({
+                        invalid: invalidPlacement
+                    });
+                }
+            };
+
+            const InvalidTurn = (InvalidTurn)=>{
+                if(this.state.currentGame.gameId===InvalidTurn.gameId) {
+                    this.setState({
+                        invalid: InvalidTurn
+                    });
+                }
+            };
 
             const gameOver = (gameOver)=>{
 
@@ -81,7 +109,8 @@ export default function (injected) {
                         gameOver:gameOver,
                         currentGame:{
 
-                        }
+                        },
+                        invalid: undefined
                     })
                 }
             };
@@ -90,6 +119,9 @@ export default function (injected) {
             eventRouter.on('GameCreated', gameCreated);
             eventRouter.on('GameWon', gameOver);
             eventRouter.on('GameDraw', gameOver);
+            eventRouter.on('Placed', Placed);
+            eventRouter.on('InvalidPlacement', invalidPlacement);
+            eventRouter.on('InvalidTurn', InvalidTurn);
 
             queryRouter.on('OpenGamesResult', (resultMessage)=>{
                 _.each(resultMessage.resultSet, function(event){
@@ -143,9 +175,17 @@ export default function (injected) {
                     gameEnd = <span>Draw!</span>
                 }
                 gameOver = <div>Game over: {gameEnd} </div>
+            } else if(this.state.invalid) {
+                if(this.state.currentGame.side === this.state.invalid.mySide) {
+                    if(this.state.invalid.type === "InvalidPlacement") {
+                        gameOver = <div>Invalid Move!</div>
+                    } else if(this.state.invalid.type === "InvalidTurn") {
+                        gameOver = <div>Not your turn!</div>
+                    }
+                }
             }
             if(this.state.currentGame.gameId){
-                gameView = <TictactoeBoard gameId={this.state.currentGame.gameId} mySide={this.state.currentGame.side}></TictactoeBoard>
+                gameView = <TictactoeBoard board={this.state.currentGame.board} gameId={this.state.currentGame.gameId} mySide={this.state.currentGame.side}></TictactoeBoard>
             }
             return (<div className="TictactoeGame">
                 {gameOver}
