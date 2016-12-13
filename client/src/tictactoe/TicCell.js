@@ -8,7 +8,7 @@ export default function (injected) {
     class TicCell extends React.Component {
         constructor(props) {
             super(props);
-            console.log(this.props);
+            //console.log(this.props);
             this.state = {
             }
         }

@@ -43,22 +43,39 @@ module.exports = function(injected){
                         }]);
                     },
                     "PlaceMove": function(cmd){
-                        console.log("Placemove: " + cmd.gameId);
-
-                        if(!gameState.validPlacement(cmd.coordinates)) {
-                          eventHandler( [{
-                              gameId: cmd.gameId,
-                              type: "InvalidPlacement",
-                              coordinates: this.props.coordinates,
-                              name: cmd.name,
-                              timeStamp: cmd.timeStamp,
-                              mySide: this.props.mySide
-                          }]);
-                          return;
+                        //console.log("Placemove: " + cmd.gameId);
+                        if(!gameState.isTurns(cmd.mySide)) {
+                            eventHandler( [{
+                                gameId: cmd.gameId,
+                                type: "InvalidTurn",
+                                coordinates: cmd.coordinates,
+                                name: cmd.name,
+                                timeStamp: cmd.timeStamp,
+                                mySide: cmd.mySide
+                            }]);
+                            return;
                         }
-                        // Check here for conditions which prevent command from altering state
+                        if(gameState.invalidPlacement(cmd.coordinates)) {
+                            eventHandler( [{
+                                gameId: cmd.gameId,
+                                type: "InvalidPlacement",
+                                coordinates: cmd.coordinates,
+                                name: cmd.name,
+                                timeStamp: cmd.timeStamp,
+                                mySide: cmd.mySide
+                            }]);
+                            return;
+                        }
 
-                        gameState.processEvents(cmd); // ?
+                        gameState.processEvents([cmd]);
+                        eventHandler([{
+                            gameId: cmd.gameId,
+                            type: "Placed",
+                            coordinates: cmd.coordinates,
+                            name: cmd.name,
+                            timeStamp: cmd.timeStamp,
+                            mySide: cmd.mySide
+                        }]);
 
                         // Check here for conditions which may warrant additional events to be emitted.
                         //eventHandler(events);
