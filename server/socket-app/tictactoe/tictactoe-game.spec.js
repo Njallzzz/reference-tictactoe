@@ -162,6 +162,23 @@ describe('join game command', function () {
             }
         ];
     });
+});
+
+describe('gameplay command', function () {
+
+    var given, when, then;
+
+    beforeEach(function () {
+        given = undefined;
+        when = undefined;
+        then = undefined;
+    });
+
+    afterEach(function () {
+        tictactoe(given).executeCommand(when, function (actualEvents) {
+            should(JSON.stringify(actualEvents)).be.exactly(JSON.stringify(then));
+        });
+    });
 
     it('should emit Placed event when PlaceMove is called', function () {
         given = [{
