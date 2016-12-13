@@ -199,20 +199,95 @@ describe('join game command', function () {
                 mySide: 'X'
             }
         ];
+    });
 
-        /*commandId:cmdId,
-        type:"PlaceMove",
-        coordinates: this.props.coordinates,
-        gameId: this.props.gameId,
-        mySide: this.props.mySide // */
+    it('should emit InvalidPlacement event when PlaceMove is called for same square', function () {
+        given = [{
+            type: "GameCreated",
+            user: {
+                userName: "TheGuy"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "JoinGame",
+            user: {
+                userName: "Gummi"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 0
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        }
+        ];
+        when =
+        {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 0
+            },
+            name: "TheFirstGame",
+            mySide: 'O'
+        };
+        then = [
+            {
+                type: "InvalidPlacement",
+                coordinates: {
+                    x: 0, y: 0
+                },
+                name: "TheFirstGame",
+                mySide: 'O'
+            }
+        ];
+    });
 
-        /*gameId: cmd.gameId,
-        type: "Placed",
-        coordinates: cmd.coordinates,
-        name: cmd.name,
-        timeStamp: cmd.timeStamp,
-        mySide: cmd.mySide // */
-
-        //expect(true).toBe(false);
+    it('should emit InvalidTurn event when PlaceMove is called when it\'s not their turn', function () {
+        given = [{
+            type: "GameCreated",
+            user: {
+                userName: "TheGuy"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "JoinGame",
+            user: {
+                userName: "Gummi"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 0
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        }
+        ];
+        when =
+        {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 1
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        };
+        then = [
+            {
+                type: "InvalidTurn",
+                coordinates: {
+                    x: 0, y: 1
+                },
+                name: "TheFirstGame",
+                mySide: 'X'
+            }
+        ];
     });
 });

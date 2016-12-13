@@ -43,7 +43,6 @@ module.exports = function(injected){
                         }]);
                     },
                     "PlaceMove": function(cmd){
-                        //console.log("Placemove: " + cmd.gameId);
                         if(!gameState.isTurns(cmd.mySide)) {
                             eventHandler( [{
                                 gameId: cmd.gameId,
