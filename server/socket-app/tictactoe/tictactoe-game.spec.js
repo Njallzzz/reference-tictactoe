@@ -74,8 +74,6 @@ describe('create game command', function() {
 
 
 describe('join game command', function () {
-
-
     var given, when, then;
 
     beforeEach(function () {
@@ -118,6 +116,7 @@ describe('join game command', function () {
                     userName: "Gummi"
                 },
                 name: "TheFirstGame",
+                board:[[1,2,3],[4,5,6],[7,8,9]],
                 timeStamp: "2014-12-02T11:29:30",
                 side:'O'
             }
@@ -161,7 +160,7 @@ describe('join game command', function () {
                 timeStamp: "2014-12-02T11:29:29"
             }
         ];
-    });
+    })
 });
 
 describe('gameplay command', function () {
