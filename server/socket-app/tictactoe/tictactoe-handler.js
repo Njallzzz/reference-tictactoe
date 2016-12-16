@@ -78,16 +78,6 @@ module.exports = function(injected){
                             mySide: cmd.mySide
                         });
 
-                        if(gameState.draw()){
-                            events.push({
-                                gameId: cmd.gameId,
-                                type: "GameDraw",
-                                name: cmd.name,
-                                timeStamp: cmd.timeStamp
-                            });
-                            eventHandler(events);
-                            return;
-                        }
                         var winner = gameState.winner();
                         if(winner) {
                           events.push({
@@ -97,6 +87,13 @@ module.exports = function(injected){
                               move: {side: winner},
                               timeStamp: cmd.timeStamp
                           });
+                        } else if(gameState.draw()){
+                            events.push({
+                                gameId: cmd.gameId,
+                                type: "GameDraw",
+                                name: cmd.name,
+                                timeStamp: cmd.timeStamp
+                            });
                         }
                         eventHandler(events);
                     }
