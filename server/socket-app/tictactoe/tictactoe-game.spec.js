@@ -306,4 +306,165 @@ describe('gameplay command', function () {
             }
         ];
     });
+
+    it('should emit gameWon when a user wins', function () {
+        given = [{
+            type: "GameCreated",
+            user: {
+                userName: "TheGuy"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "JoinGame",
+            user: {
+                userName: "Gummi"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 0
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 1, y: 0
+            },
+            name: "TheFirstGame",
+            mySide: 'O'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 1
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 1, y: 1
+            },
+            name: "TheFirstGame",
+            mySide: 'O'
+        } ];
+        when =
+        {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 2
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        };
+        then = [
+            {
+                type:"Placed",
+                coordinates:{"x":0,"y":2},
+                name:"TheFirstGame",
+                mySide:"X"
+            }, {
+                type: "GameWon",
+                name: "TheFirstGame",
+                move: {side: "Unknown user"}
+            }
+        ];
+    });
+
+    it('should emit gameDraw when the board is full', function () {
+        given = [{
+            type: "GameCreated",
+            user: {
+                userName: "TheGuy"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "JoinGame",
+            user: {
+                userName: "Gummi"
+            },
+            name: "TheFirstGame",
+            timeStamp: "2014-12-02T11:29:29"
+        }, {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 0
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 1, y: 0
+            },
+            name: "TheFirstGame",
+            mySide: 'O'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 2, y: 0
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 1
+            },
+            name: "TheFirstGame",
+            mySide: 'O'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 1, y: 1
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 0, y: 2
+            },
+            name: "TheFirstGame",
+            mySide: 'O'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 2, y: 1
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        } , {
+            type: "PlaceMove",
+            coordinates: {
+                x: 2, y: 2
+            },
+            name: "TheFirstGame",
+            mySide: 'O'
+        } ];
+        when =
+        {
+            type: "PlaceMove",
+            coordinates: {
+                x: 1, y: 2
+            },
+            name: "TheFirstGame",
+            mySide: 'X'
+        } ;
+        then = [
+            {
+                type:"Placed",
+                coordinates:{"x":1,"y":2},
+                name:"TheFirstGame",
+                mySide:"X"
+            }, {
+                type: "GameDraw",
+                name: "TheFirstGame"
+            }
+        ];
+    });
 });

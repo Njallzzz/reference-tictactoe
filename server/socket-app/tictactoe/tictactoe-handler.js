@@ -67,35 +67,38 @@ module.exports = function(injected){
                             return;
                         }
 
+                        events = [];
                         gameState.processEvents([cmd]);
-                        eventHandler([{
+                        events.push({
                             gameId: cmd.gameId,
                             type: "Placed",
                             coordinates: cmd.coordinates,
                             name: cmd.name,
                             timeStamp: cmd.timeStamp,
                             mySide: cmd.mySide
-                        }]);
+                        });
 
                         if(gameState.draw()){
-                            eventHandler([{
+                            events.push({
                                 gameId: cmd.gameId,
                                 type: "GameDraw",
                                 name: cmd.name,
                                 timeStamp: cmd.timeStamp
-                            }]);
+                            });
+                            eventHandler(events);
+                            return;
                         }
                         var winner = gameState.winner();
                         if(winner) {
-                          eventHandler([{
+                          events.push({
                               gameId: cmd.gameId,
                               type: "GameWon",
                               name: cmd.name,
                               move: {side: winner},
                               timeStamp: cmd.timeStamp
-                          }]);
+                          });
                         }
-
+                        eventHandler(events);
                     }
                 };
 
