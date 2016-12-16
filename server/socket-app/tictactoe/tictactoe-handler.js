@@ -77,8 +77,25 @@ module.exports = function(injected){
                             mySide: cmd.mySide
                         }]);
 
-                        // Check here for conditions which may warrant additional events to be emitted.
-                        //eventHandler(events);
+                        if(gameState.draw()){
+                            eventHandler([{
+                                gameId: cmd.gameId,
+                                type: "GameDraw",
+                                name: cmd.name,
+                                timeStamp: cmd.timeStamp
+                            }]);
+                        }
+                        var winner = gameState.winner();
+                        if(winner) {
+                          eventHandler([{
+                              gameId: cmd.gameId,
+                              type: "GameWon",
+                              name: cmd.name,
+                              move: {side: winner},
+                              timeStamp: cmd.timeStamp
+                          }]);
+                        }
+
                     }
                 };
 

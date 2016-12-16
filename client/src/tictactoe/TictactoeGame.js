@@ -24,11 +24,9 @@ export default function (injected) {
         }
         //noinspection JSUnusedGlobalSymbols
         componentWillMount(){
-
             socket.on('userAcknowledged', (userSession)=> {
                 this.setState({session: userSession});
             });
-
 
             const gameJoined = (gameJoined)=>{
 
