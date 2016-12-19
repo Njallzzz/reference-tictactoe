@@ -1,4 +1,4 @@
-2. Game URL (AWS) (will be placed later, is available)
+2. Game URL (AWS) 54.154.103.115(ec2-54-154-103-115.eu-west-1.compute.amazonaws.com)
 
 ## Scripts
 
